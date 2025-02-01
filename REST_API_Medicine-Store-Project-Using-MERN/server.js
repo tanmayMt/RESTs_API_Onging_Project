@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 //routes
-
+app.use("/api/v1/auth", authRoutes);
 
 //rest api
 app.get("/", (req, res) => {
