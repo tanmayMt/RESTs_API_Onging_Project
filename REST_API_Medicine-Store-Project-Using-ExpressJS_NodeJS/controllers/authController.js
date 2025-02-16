@@ -1,6 +1,6 @@
 // Importing the user model and password hashing helper
 import userModel from "../models/userModel.js";
-import { hashPassword } from "./../helpers/authHelper.js";
+import { comparePassword, hashPassword } from "./../helpers/authHelper.js";
 
 // Controller for user registration
 export const registerController = async (req, res) => {
@@ -65,6 +65,50 @@ export const registerController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Registration Failed",
+      error,
+    });
+  }
+};
+
+//POST LOGIN
+export const loginController = async (req, res) => {
+  try{
+    const { email, password } = req.body;
+    console.log(password);
+    //Validation
+    if(!email || !password){
+      return res.status(404).send({
+        success:false,
+        message:"Invalid Email or Passsword"
+      })
+    }
+    //Cheack User
+    const user = await userModel.findOne({email});
+    if(!user){
+      return res.status(404).send({
+        success:false,
+        message:"Email is not Registerd!!"
+      })
+    }
+    //Cheack Password Validation
+    const match = await comparePassword(password,user.password);
+    if(!match){
+      return res.status(202).send({
+        success:false,
+        message:"Invalid Passsword"
+      })
+    }
+
+    return res.status(201).send({
+      success:true,
+      message:"Login Successfully"
+    })
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).send({
+      success:false,
+      message:"Login Failed",
       error,
     });
   }
