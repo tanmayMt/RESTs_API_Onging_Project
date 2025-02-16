@@ -1,4 +1,13 @@
 // Importing the user model and password hashing helper
+
+// jsonwebtoken (also known as jwt) is a Node.js library used for creating and verifying JSON Web Tokens (JWTs). 
+// JWTs are a secure way to handle authentication and authorization in web applications.
+
+// Why Use JSON Web Tokens (JWT)?
+// Authentication: Used to verify users after they log in.
+// Authorization: Allows access to protected routes based on user roles.
+// Stateless: No need to store session data on the server; everything is inside the token.
+import JWT from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 import { comparePassword, hashPassword } from "./../helpers/authHelper.js";
 
@@ -98,10 +107,23 @@ export const loginController = async (req, res) => {
         message:"Invalid Passsword"
       })
     }
+    // Generating a JWT token   https://chatgpt.com/share/67b1cc63-d8c0-8001-bd16-99e4ab958eb4
+    const token = await JWT.sign({_id:user._id},process.env.JWT_SECRET,{
+      expiresIn: "7d",
+    });
 
-    return res.status(201).send({
+    return res.status(200).send({
       success:true,
-      message:"Login Successfully"
+      message:"Login Successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        role: user.role,
+      },
+      token
     })
   }
   catch(error){
