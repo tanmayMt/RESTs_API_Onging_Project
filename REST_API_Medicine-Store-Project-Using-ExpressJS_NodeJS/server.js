@@ -1,3 +1,4 @@
+// Application entry point
 import express, { urlencoded } from "express";
 import colors from "colors";
 import dotenv from "dotenv";
