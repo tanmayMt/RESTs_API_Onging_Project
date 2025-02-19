@@ -1,3 +1,6 @@
+// Logic for user registration and login
+
+
 // Importing the user model and password hashing helper
 
 // jsonwebtoken (also known as jwt) is a Node.js library used for creating and verifying JSON Web Tokens (JWTs). 

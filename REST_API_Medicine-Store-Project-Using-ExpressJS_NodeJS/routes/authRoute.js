@@ -1,3 +1,4 @@
+// API endpoints
 import express from "express";
 import {
   registerController,
