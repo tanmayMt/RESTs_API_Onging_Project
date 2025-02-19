@@ -110,7 +110,7 @@ export const loginController = async (req, res) => {
     // Generating a JWT token   https://chatgpt.com/share/67b1cc63-d8c0-8001-bd16-99e4ab958eb4
     const token = await JWT.sign({_id:user._id},process.env.JWT_SECRET,{
       expiresIn: "7d",
-    });
+    });   //Now using this token we can Protected our Routes
 
     return res.status(200).send({
       success:true,
@@ -133,5 +133,15 @@ export const loginController = async (req, res) => {
       message:"Login Failed",
       error,
     });
+  }
+};
+
+//test controller
+export const testController = (req, res) => {
+  try {
+    res.send("Protected Routes");
+  } catch (error) {
+    console.log(error);
+    res.send({ error });
   }
 };
